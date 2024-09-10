@@ -28,6 +28,7 @@ class AuthRepository {
         String refreshToken = response['data']['refreshToken'];
         await storage.write(key: "accessToken", value: token);
         await storage.write(key: "refreshToken", value: refreshToken);
+        await storage.write(key: "email", value: data['email']);
         ApiEndpoints.headers
             .putIfAbsent('Authorization', () => 'Bearer $token');
         return token;
@@ -39,11 +40,22 @@ class AuthRepository {
     }
   }
 
+  Future<dynamic> logoutAPI() async {
+    try {
+      await baseAPI.getDeleteApiResponse(ApiEndpoints.logout, null);
+      ApiEndpoints.headers.remove("Authorization");
+      await storage.delete(key: "accessToken");
+      await storage.delete(key: "refreshToken");
+      await storage.delete(key: "email");
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<String> checkToken() async {
-    String? authorization = ApiEndpoints.headers['Authorization'];
-    if (authorization != null) {
-      String? token = await storage.read(key: "accessToken");
-      bool isExpired = JwtDecoder.isExpired(token!);
+    String? token = await storage.read(key: "accessToken");
+    if (token != null) {
+      bool isExpired = JwtDecoder.isExpired(token);
       if (isExpired) {
         await storage.delete(key: "accessToken");
         ApiEndpoints.headers.remove("Authorization");
@@ -65,6 +77,7 @@ class AuthRepository {
           }
         }
       }
+      ApiEndpoints.headers.putIfAbsent("Authorization", () => "Bearer $token");
       return Instants.tokenValid;
     }
     return Instants.tokenNotFound;

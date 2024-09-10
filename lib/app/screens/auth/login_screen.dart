@@ -28,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   Image.network(
                     "https://blog.ippon.fr/content/images/2023/09/RGFzaGF0YXJfRGV2ZWxvcGVyX092ZXJJdF9jb2xvcl9QR19zaGFkb3c-.png",
                     fit: BoxFit.contain,
+                    height: 100,
+                    width: 100,
                   ),
                   const SizedBox(height: 16),
                   Form(
@@ -129,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 12),
                   const Text(
-                    "All Right Reserve",
+                    "Đã đăng ký bản quyền.",
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
                   ),
                   const SizedBox(height: 10),

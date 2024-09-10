@@ -25,16 +25,7 @@ class RegistrationController extends GetxController {
       emailController.clear();
       passwordController.clear();
       loading.value = false;
-      showDialog(
-          context: Get.context!,
-          builder: (context) {
-            return const SimpleDialog(
-              title: Text("Success"),
-              contentPadding: EdgeInsets.all(20),
-              children: [Text("Đăng ký thành công")],
-            );
-          });
-      Get.offNamed(Routes.loginScreen);
+      Get.offAndToNamed(Routes.loginScreen);
     } catch (e) {
       loading.value = false;
       Get.back();

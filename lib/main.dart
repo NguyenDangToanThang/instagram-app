@@ -8,7 +8,7 @@ import 'package:insta/app/screens/auth/registration_screen.dart';
 import 'package:insta/app/screens/pages/home_screen.dart';
 import 'package:insta/config/route/routes.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -20,10 +20,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Insta',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
+      defaultTransition: Transition.fade,
       initialRoute: Routes.loginScreen,
       getPages: getPages,
     );

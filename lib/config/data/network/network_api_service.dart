@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:insta/config/api_endpoints.dart';
 import 'package:insta/config/data/app_exceptions.dart';
 import 'package:insta/config/data/network/base_api_service.dart';
+import 'package:path/path.dart';
 
 class NetworkApiServices extends BaseApiServices {
   final storage = const FlutterSecureStorage();
@@ -39,8 +40,34 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  Future getMultipartApiResponse(String url, File image) {
-    throw UnimplementedError();
+  Future getMultipartApiResponse(
+      String url, File? image, String? caption) async {
+    try {
+      var request = MultipartRequest('POST', Uri.parse(url));
+
+      if(image != null) {
+        // Thêm file ảnh vào request
+      var imageStream = ByteStream(image.openRead());
+      var imageLength = await image.length();
+      var multipartFile = MultipartFile(
+        'image', // Tên trùng với @RequestPart("image") trong server
+        imageStream,
+        imageLength,
+        filename: basename(image.path), // Lấy tên file từ đường dẫn
+      );
+
+      request.files.add(multipartFile);
+      }
+      if (caption != null) {
+        request.fields['caption'] = caption;
+      }
+      request.headers.addAll(ApiEndpoints.headers);
+      await request.send();
+    } on SocketException {
+      throw FetchDataException("Mất kết nối");
+    } catch (e) {
+      throw FetchDataException(e.toString());
+    }
   }
 
   @override
@@ -93,5 +120,4 @@ class NetworkApiServices extends BaseApiServices {
             "Lỗi khi liên lạc với máy chủ bằng mã trạng thái: ${response.statusCode}");
     }
   }
-
 }

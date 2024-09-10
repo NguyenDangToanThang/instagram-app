@@ -140,7 +140,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const SizedBox(height: 14),
                         const Center(
                           child: Text(
-                            "All Right Reserve",
+                            "Đã đăng ký bản quyền.",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 14),
                           ),
