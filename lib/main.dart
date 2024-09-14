@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:insta/app/bindings/comment_binding.dart';
 import 'package:insta/app/bindings/home_binding.dart';
+import 'package:insta/app/bindings/like_binding.dart';
 import 'package:insta/app/bindings/login_binding.dart';
 import 'package:insta/app/bindings/registration_binding.dart';
 import 'package:insta/app/screens/auth/login_screen.dart';
 import 'package:insta/app/screens/auth/registration_screen.dart';
+import 'package:insta/app/screens/pages/comment_screen.dart';
 import 'package:insta/app/screens/pages/home_screen.dart';
+import 'package:insta/app/screens/pages/like_screen.dart';
 import 'package:insta/config/route/routes.dart';
 
 void main() async {
@@ -45,4 +49,12 @@ final getPages = [
     page: () => const RegistrationScreen(),
     binding: RegistrationBinding(),
   ),
+  GetPage(
+      name: Routes.likeScreen,
+      page: () => LikeScreen(),
+      binding: LikeBinding()),
+  GetPage(
+      name: Routes.commentScreen,
+      page: () => CommentsScreen(),
+      binding: CommentBinding())
 ];

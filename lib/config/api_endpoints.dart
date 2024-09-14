@@ -9,10 +9,10 @@ class ApiEndpoints {
 
   static const postUrl = "$baseUrl/post";
   static const createPostUrl = "$postUrl/create";
-  static const createPostWithoutImageUrl = "$postUrl/createWithoutImage";
   static const likePostUrl = "$postUrl/like-post";
   static const getListsLikePostUrl = "$postUrl/get-lists-like-post";
   static const commentPostUrl = "$postUrl/comment-post";
   static const getListsCommentPostUrl = "$postUrl/get-lists-comment-post";
-  static const followUser = "$postUrl/follow";
+
+  static const followUser = "$baseUrl/follow";
 }

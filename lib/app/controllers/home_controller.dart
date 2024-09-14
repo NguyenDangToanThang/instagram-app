@@ -49,6 +49,23 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> likePost(String postId, int index) async {
+    try {
+      Map data = {"postId": postId};
+      await postRepository.likePost(data);
+      Post post = posts[index];
+      Post newPost = post.copyWith(
+          like: !post.like,
+          quantityLike:
+              post.like ? post.quantityLike - 1 : post.quantityLike + 1);
+      posts[index] = newPost;
+      posts.refresh();
+    } catch (e) {
+      Get.snackbar("Lỗi", e.toString());
+      rethrow;
+    }
+  }
+
   Future<dynamic> createPost() async {
     if (captionController.text.isEmpty) {
       Get.snackbar("Thông báo", "Vui lòng nhập chú thích");

@@ -4,5 +4,6 @@ class Routes {
   static String registrationScreen = '/registration';
   static String upPostScreen = '/upPost';
   static String homeView = '/homeView';
-  static String settingView = '/settingView';
+  static String likeScreen = '/likeScreen';
+  static String commentScreen = '/commentScreen';
 }

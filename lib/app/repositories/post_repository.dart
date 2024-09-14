@@ -36,4 +36,10 @@ class PostRepository {
       rethrow;
     }
   }
+
+  Future<dynamic> likePost(Map data) async {
+    dynamic response =
+          await baseAPI.getPostApiResponse(ApiEndpoints.likePostUrl, data);
+      return response;
+  }
 }
