@@ -13,6 +13,8 @@ class ApiEndpoints {
   static const getListsLikePostUrl = "$postUrl/get-lists-like-post";
   static const commentPostUrl = "$postUrl/comment-post";
   static const getListsCommentPostUrl = "$postUrl/get-lists-comment-post";
+  static const getCommentReplies = "$postUrl/get-comment-replies";
+  static const replyComment = "$postUrl/reply-comment";
 
   static const followUser = "$baseUrl/follow";
 }

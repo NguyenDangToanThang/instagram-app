@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:insta/app/controllers/comment_controller.dart';
 
 class NewCommentInput extends StatelessWidget {
-  final TextEditingController _textController = TextEditingController();
   final CommentsController controller = Get.find();
 
   NewCommentInput({super.key});
@@ -16,25 +15,55 @@ class NewCommentInput extends StatelessWidget {
         children: [
           const CircleAvatar(
             radius: 16,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            backgroundImage: AssetImage('assets/images/avatar.jpg'),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: TextField(
-              controller: _textController,
-              style: const TextStyle(
-                  color: Colors.white, backgroundColor: Colors.black),
-              decoration: const InputDecoration(
-                hintText: 'Phản hồi',
-                border: InputBorder.none,
-              ),
+            child: Column(
+              children: [
+                Obx(() {
+                  if (controller.commentParent.value.id != "") {
+                    return Row(children: [
+                      Text(
+                        "Đang phản hồi ${controller.commentParent.value.username}",
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () => controller.resetParentComment(),
+                        child: const Icon(
+                          Icons.remove_circle_outline_rounded,
+                          color: Colors.white,
+                        ),
+                      )
+                    ]);
+                  }
+                  return const SizedBox.shrink();
+                }),
+                TextField(
+                  controller: controller.textController,
+                  style: const TextStyle(
+                      color: Colors.white, backgroundColor: Colors.black),
+                  decoration: const InputDecoration(
+                    hintText: 'Phản hồi',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ],
             ),
           ),
           TextButton(
             onPressed: () {
-              if (_textController.text.isNotEmpty) {
-                controller.addComment(_textController.text);
-                _textController.clear();
+              if (controller.textController.text.isNotEmpty &&
+                  controller.commentParent.value.id == "") {
+                controller.commentPost(controller.textController.text);
+                controller.textController.clear();
+              }
+              if (controller.textController.text.isNotEmpty &&
+                  controller.commentParent.value.id != "") {
+                controller.replyComment(controller.commentParent.value.id,
+                    controller.textController.text);
+                controller.textController.clear();
               }
             },
             child: const Text('Gửi', style: TextStyle(color: Colors.blue)),

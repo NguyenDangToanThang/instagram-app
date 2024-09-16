@@ -130,7 +130,10 @@ class _PostViewState extends State<PostView> {
                 ),
               ),
               InkWell(
-                onTap: () => Get.toNamed(Routes.commentScreen),
+                onTap: () => Get.toNamed(
+                  Routes.commentScreen,
+                  arguments: {'postId': widget.post.id},
+                ),
                 child: Text(
                     style: const TextStyle(color: Colors.white),
                     widget.post.quantityComment.toString()),
