@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+
 import 'package:insta/app/repositories/auth_repository.dart';
 import 'package:insta/config/instants.dart';
 import 'package:insta/config/route/routes.dart';
+
 
 class LoginController extends GetxController {
   final AuthRepository authRepository = AuthRepository();
@@ -24,6 +26,7 @@ class LoginController extends GetxController {
       Get.offAndToNamed(Routes.homeScreen);
     }
   }
+
 
   Future<void> login() async {
     loading.value = true;

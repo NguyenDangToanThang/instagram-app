@@ -1,30 +1,50 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta/app/models/post.dart';
+import 'package:insta/app/models/user.dart';
 import 'package:insta/app/repositories/auth_repository.dart';
 import 'package:insta/app/repositories/post_repository.dart';
 import 'package:insta/config/route/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   final PostRepository postRepository = PostRepository();
   final AuthRepository authRepository = AuthRepository();
-  Rx<File?> image = Rx<File?>(null); // Quản lý ảnh với Rx
+  Rx<File?> image = Rx<File?>(null); 
   Rx<int> index = Rx<int>(0);
   final TextEditingController captionController = TextEditingController();
   final ImagePicker picker = ImagePicker();
   RxList posts = <Post>[].obs;
+  RxBool loadingPost = false.obs;
+  Rx<User?> user = Rx(null);
 
   @override
   void onInit() {
     super.onInit();
     getAllPost();
+    getCurrentUser();
   }
 
   void changeIndex(int newIndex) {
     index.value = newIndex;
+  }
+
+  Future<dynamic> getCurrentUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? userJson = prefs.getString("user");
+
+      if (userJson != null) {
+        Map<String, dynamic> userMap = jsonDecode(userJson);
+        user.value = User.fromMap(userMap);
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> takePicture() async {
@@ -67,6 +87,7 @@ class HomeController extends GetxController {
   }
 
   Future<dynamic> createPost() async {
+    loadingPost.value = true;
     if (captionController.text.isEmpty) {
       Get.snackbar("Thông báo", "Vui lòng nhập chú thích");
       return;
@@ -81,6 +102,8 @@ class HomeController extends GetxController {
     } catch (e) {
       Get.snackbar("Lỗi", e.toString());
       rethrow;
+    } finally {
+      loadingPost.value = false;
     }
   }
 

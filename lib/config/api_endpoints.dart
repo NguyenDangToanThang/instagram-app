@@ -3,7 +3,7 @@ class ApiEndpoints {
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept-Charset': 'UTF-8',
   };
-  static const baseUrl = "http://10.0.2.2:8080/api/v1";
+  static const baseUrl = "http://192.168.100.10:8080/api/v1";
   static const authUrl = "$baseUrl/auth";
   static const logout = "$authUrl/logout";
 
@@ -15,6 +15,5 @@ class ApiEndpoints {
   static const getListsCommentPostUrl = "$postUrl/get-lists-comment-post";
   static const getCommentReplies = "$postUrl/get-comment-replies";
   static const replyComment = "$postUrl/reply-comment";
-
   static const followUser = "$baseUrl/follow";
 }

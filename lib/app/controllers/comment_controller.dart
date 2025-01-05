@@ -64,7 +64,7 @@ class CommentsController extends GetxController {
             if (rootComments[i].replies[j].id == commentId) {
               rootComments[i].replies.add(dataComment);
               rootComments[i].countReply++;
-              rootComments[i] = rootComments[i].copyWith(); // Trigger update for UI
+              rootComments[i] = rootComments[i].copyWith(); 
               found = true;
               break;
             }

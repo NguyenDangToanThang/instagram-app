@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:insta/app/controllers/home_controller.dart';
 import 'package:insta/app/models/post.dart';
+import 'package:insta/app/screens/pages/chat_screen.dart';
 import 'package:insta/config/route/routes.dart';
 import 'package:intl/intl.dart';
 
@@ -16,6 +18,19 @@ class PostView extends StatefulWidget {
 }
 
 class _PostViewState extends State<PostView> {
+  String? sender = '';
+  final storage = const FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    loadSender();
+  }
+
+  Future<void> loadSender() async {
+    sender = await storage.read(key: "email");
+  }
+
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
@@ -141,7 +156,11 @@ class _PostViewState extends State<PostView> {
               const SizedBox(width: 10),
               const Spacer(),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChatScreen(
+                          receiverId: widget.post.email, senderId: sender!)));
+                },
                 icon: const Icon(Icons.send),
               ),
             ],
